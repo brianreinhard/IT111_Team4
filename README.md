@@ -1,2 +1,2 @@
 # IT111_Team4
-Repository for Team 4's web productivity app
+Repository for Team 4's web productivity app using Python and Flask
