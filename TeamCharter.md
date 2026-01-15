@@ -2,16 +2,16 @@
 
 ## Roles and Responsibilities
 
-# Brian
+# Brian Reinhard
 	Repository management, coding, testing, research
 
-# Khalid
+# Khalid Shams
 	Coding, testing, research
 	
 # Shan
 	Coding, debugging, testing
 	
-# Nil
+# Md Shezanul Haque
 	Coding, testing, research
 	
 
