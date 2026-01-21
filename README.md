@@ -40,3 +40,16 @@
 
 # &nbsp;  pip install -r requirements.txt ```
 
+## How to Run Locally (Windows)
+
+# 1. Clone the repo
+# 2. Create and activate a virtual environment:
+   - `python -m venv venv`
+   - `.\venv\Scripts\Activate.ps1`
+# 3. Install dependencies:
+   - `pip install -r requirements.txt`
+   (or `pip install flask` if requirements.txt is not used)
+# 4. Run the app:
+   - `python app.py`
+# 5. Open in browser:
+   - http://127.0.0.1:5000/
