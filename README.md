@@ -1,12 +1,12 @@
-# \# Productivity Web App (Flask)
+\# Productivity Web App (Flask)
 
 # 
 
-# \# Goal
+\# Goal
 
-# A simple Flask-based productivity app that will grow week by week (task tracker / study planner / reading log style).  
+A simple Flask-based productivity app that will grow week by week (task tracker / study planner / reading log style).  
 
-# Sprint 1 focuses on project setup, clean structure, Git workflow, and a working Flask route.
+Sprint 1 focuses on project setup, clean structure, Git workflow, and a working Flask route.
 
 # 
 
