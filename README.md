@@ -1,8 +1,8 @@
-\# Productivity Web App (Flask)
+# Productivity Web App (Flask)
 
 # 
 
-\# Goal
+# Goal
 
 A simple Flask-based productivity app that will grow week by week (task tracker / study planner / reading log style).  
 
