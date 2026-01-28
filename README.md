@@ -1,4 +1,4 @@
-# Spending Tracker Web Application (Product)
+\# Spending Tracker Web Application (Product)
 
 Purpose: 
 
@@ -15,7 +15,10 @@ View spending by category
 Save/load data from a file (CSV or text)  
 Simple input validation  
 
-## Development Section
+
+
+
+\## Development Section
 
 # Spending Tracker Web App (Flask)
 
