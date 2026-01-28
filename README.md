@@ -35,9 +35,7 @@ Sprint 1 focuses on project setup, clean structure, Git workflow, and a working 
 # Scope (Sprint 1)
 
  \- Flask app runs locally
-
  \- `/` route confirms the app is running
-
  \- App metadata (name, version, description) defined as variables and displayed
 
  
@@ -45,7 +43,6 @@ Sprint 1 focuses on project setup, clean structure, Git workflow, and a working 
  # Tech
 
 \- Python 3.x
-
  \- Flask
 
  
@@ -53,9 +50,7 @@ Sprint 1 focuses on project setup, clean structure, Git workflow, and a working 
 \# Setup
 
 1\. Clone the repo
-
 2\. Create and activate a virtual environment
-
 3\. Install dependencies:
 
 &nbsp;  ```bash
