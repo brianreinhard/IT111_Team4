@@ -1,4 +1,4 @@
-## Spending Tracker Web Application
+### Spending Tracker Web Application
 
 # Purpose: 
 
