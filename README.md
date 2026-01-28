@@ -1,6 +1,6 @@
 # Spending Tracker Web Application
 
-# Purpose: 
+ Purpose: 
 
 To help users monitor, categorize, and analyze their expenses so they can better understand their financial habits, control spending, and make informed budgeting and saving decisions.
 
