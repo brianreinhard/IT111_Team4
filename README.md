@@ -1,4 +1,23 @@
-# Productivity Web App (Flask)
+## Spending Tracker Web Application
+
+#Purpose: 
+
+To help users monitor, categorize, and analyze their expenses so they can better understand their financial habits, control spending, and make informed budgeting and saving decisions.
+
+ #Application Scope
+
+Basic features:
+
+-Add an expense (amount, category, description, date)
+-View all expenses
+-View total spending
+-View spending by category
+-Save/load data from a file (CSV or text)
+-Simple input validation
+
+## Development
+
+# Spending Tracker Web App (Flask)
 
 # 
 
