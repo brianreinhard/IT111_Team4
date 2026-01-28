@@ -8,12 +8,12 @@ To help users monitor, categorize, and analyze their expenses so they can better
 
 Basic features:
 
-Add an expense (amount, category, description, date)
-View all expenses
-View total spending
-View spending by category
-Save/load data from a file (CSV or text)
-Simple input validation
+Add an expense (amount, category, description, date)  
+View all expenses  
+View total spending  
+View spending by category  
+Save/load data from a file (CSV or text)  
+Simple input validation  
 
 ## Development
 
