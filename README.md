@@ -18,7 +18,7 @@ Simple input validation
 
 
 
-\## Development Section
+# Development Section
 
 # Spending Tracker Web App (Flask)
 
