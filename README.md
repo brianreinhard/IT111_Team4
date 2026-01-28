@@ -10,7 +10,7 @@ Sprint 1 focuses on project setup, clean structure, Git workflow, and a working 
 
 # 
 
-\# Scope (Sprint 1)
+# Scope (Sprint 1)
 
  \- Flask app runs locally
 
