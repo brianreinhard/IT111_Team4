@@ -49,9 +49,9 @@ Sprint 1 focuses on project setup, clean structure, Git workflow, and a working 
 
 \# Setup
 
-1\. Clone the repo
-2\. Create and activate a virtual environment
-3\. Install dependencies:
+1\. Clone the repo  
+2\. Create and activate a virtual environment  
+3\. Install dependencies:  
 
 &nbsp;  ```bash
 
