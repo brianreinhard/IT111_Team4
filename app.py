@@ -1,4 +1,5 @@
 categories = ["Rent", "Bills", "Food", "Gas", "Entertainment"]
+from datetime import datetime
 
 while True:
     print("\n" + "="*50)
@@ -47,6 +48,16 @@ while True:
                 valid = True
         except:
             print("Invalid amount. Please enter a number.\n")
+
+    # Get expense date
+    valid = False
+    while valid == False:
+        date_str = input("Enter expense date (YYYY-MM-DD): ")
+        try:
+            date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            valid = True
+        except:
+            print("Invalid date format. Please use YYYY-MM-DD.\n")
     
     # Display the entry
     print("\n" + "-"*50)
