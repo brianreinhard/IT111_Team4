@@ -5,7 +5,13 @@ while True:
     print("\n" + "="*50)
     print("Welcome to Team 4's Spending Tracker Application!")
     print("="*50 + "\n")
-    
+    valid = False
+while valid == False:
+    name = input("Enter expense name: ")
+    if name.strip() == "":
+        print("Name cannot be empty.\n")
+    else:
+        valid = True
     # Get expense category
     valid = False
     while valid == False:
