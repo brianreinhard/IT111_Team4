@@ -1,0 +1,107 @@
+[
+  {
+    "id": "demo001",
+    "name": "April Rent",
+    "category": "Rent",
+    "amount": 1350.0,
+    "date": "2026-01-01"
+  },
+  {
+    "id": "demo002",
+    "name": "Electric Bill",
+    "category": "Bills",
+    "amount": 124.82,
+    "date": "2026-01-05"
+  },
+  {
+    "id": "demo003",
+    "name": "Groceries - Market",
+    "category": "Food",
+    "amount": 89.47,
+    "date": "2026-01-08"
+  },
+  {
+    "id": "demo004",
+    "name": "Gas Refill",
+    "category": "Gas",
+    "amount": 46.3,
+    "date": "2026-01-10"
+  },
+  {
+    "id": "demo005",
+    "name": "Movie Night",
+    "category": "Entertainment",
+    "amount": 32.0,
+    "date": "2026-01-14"
+  },
+  {
+    "id": "demo006",
+    "name": "Rent",
+    "category": "Rent",
+    "amount": 1350.0,
+    "date": "2026-02-01"
+  },
+  {
+    "id": "demo007",
+    "name": "Internet Bill",
+    "category": "Bills",
+    "amount": 79.99,
+    "date": "2026-02-04"
+  },
+  {
+    "id": "demo008",
+    "name": "Dinner with Friends",
+    "category": "Food",
+    "amount": 58.25,
+    "date": "2026-02-11"
+  },
+  {
+    "id": "demo009",
+    "name": "Gas Refill",
+    "category": "Gas",
+    "amount": 44.76,
+    "date": "2026-02-13"
+  },
+  {
+    "id": "demo010",
+    "name": "Streaming Subscription",
+    "category": "Entertainment",
+    "amount": 18.99,
+    "date": "2026-02-16"
+  },
+  {
+    "id": "demo011",
+    "name": "Rent",
+    "category": "Rent",
+    "amount": 1350.0,
+    "date": "2026-03-01"
+  },
+  {
+    "id": "demo012",
+    "name": "Water Bill",
+    "category": "Bills",
+    "amount": 41.73,
+    "date": "2026-03-03"
+  },
+  {
+    "id": "demo013",
+    "name": "Weekly Groceries",
+    "category": "Food",
+    "amount": 102.64,
+    "date": "2026-03-09"
+  },
+  {
+    "id": "demo014",
+    "name": "Gas Refill",
+    "category": "Gas",
+    "amount": 48.12,
+    "date": "2026-03-12"
+  },
+  {
+    "id": "demo015",
+    "name": "Concert Ticket",
+    "category": "Entertainment",
+    "amount": 75.0,
+    "date": "2026-03-15"
+  }
+]
