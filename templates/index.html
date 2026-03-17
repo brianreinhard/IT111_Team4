@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <main class="container">
+    <header class="hero">
+      <p class="kicker">Personal Finance Dashboard</p>
+      <h1>{{ app_title }}</h1>
+      <p class="subtitle">Track every expense, filter by month, and monitor category trends in one place.</p>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section class="flash-stack">
+          {% for category, message in messages %}
+            <p class="alert alert-{{ category }}">{{ message }}</p>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    <section class="grid top-grid">
+      <article class="panel form-panel">
+        <h2>Add Expense</h2>
+        <form action="{{ url_for('add_expense') }}" method="post" class="expense-form">
+          <input type="hidden" name="month" value="{{ month_filter }}">
+          <label>
+            Expense Name
+            <input type="text" name="name" placeholder="Groceries, Gas, Rent..." required>
+          </label>
+
+          <label>
+            Category
+            <select name="category" required>
+              {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+              {% endfor %}
+            </select>
+          </label>
+
+          <label>
+            Amount (USD)
+            <input type="number" step="0.01" min="0" name="amount" placeholder="0.00" required>
+          </label>
+
+          <label>
+            Date
+            <input type="date" name="date" required>
+          </label>
+
+          <button type="submit">Save Expense</button>
+        </form>
+      </article>
+
+      <article class="panel total-panel">
+        <h2>Current View</h2>
+        <p class="month-label">{{ month_label }}</p>
+        <p class="main-total">${{ '%.2f'|format(total_spending) }}</p>
+        <p class="hint">Total spending for the selected view.</p>
+
+        <div class="category-list">
+          {% for item in totals %}
+            <div class="category-row">
+              <span>{{ item.category }}</span>
+              <strong>${{ '%.2f'|format(item.amount) }}</strong>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+
+    <section class="grid chart-grid">
+      <article class="panel chart-panel">
+        <h2>Category Breakdown</h2>
+        <canvas id="categoryChart" aria-label="Category spending chart"></canvas>
+      </article>
+      <article class="panel chart-panel">
+        <h2>Monthly Trend</h2>
+        <canvas id="monthlyChart" aria-label="Monthly spending chart"></canvas>
+      </article>
+    </section>
+
+    <section class="panel filter-panel">
+      <h2>Saved Expenses</h2>
+      <form method="get" action="{{ url_for('index') }}" class="filter-form">
+        <label>
+          Month Filter (YYYY-MM)
+          <input type="month" name="month" value="{{ month_filter }}">
+        </label>
+        <button type="submit">Apply Filter</button>
+        <a href="{{ url_for('index') }}" class="ghost-btn">Clear</a>
+      </form>
+
+      {% if filter_error %}
+        <p class="alert">{{ filter_error }}</p>
+      {% endif %}
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if expenses %}
+              {% for expense in expenses %}
+                <tr>
+                  <td>{{ expense.name }}</td>
+                  <td>{{ expense.category }}</td>
+                  <td>${{ '%.2f'|format(expense.amount) }}</td>
+                  <td>{{ expense.date }}</td>
+                  <td>
+                    <div class="row-actions">
+                      <button
+                        type="button"
+                        class="btn-secondary"
+                        data-edit-id="{{ expense.id }}"
+                        data-edit-name="{{ expense.name }}"
+                        data-edit-category="{{ expense.category }}"
+                        data-edit-amount="{{ '%.2f'|format(expense.amount) }}"
+                        data-edit-date="{{ expense.date }}"
+                      >
+                        Edit
+                      </button>
+                      <form method="post" action="{{ url_for('delete_expense', expense_id=expense.id) }}">
+                        <input type="hidden" name="month" value="{{ month_filter }}">
+                        <button
+                          type="submit"
+                          class="btn-danger"
+                          onclick="return confirm('Delete this expense?')"
+                        >
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="5" class="empty">No expenses found for this view.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel summary-panel">
+      <h2>Monthly Summary</h2>
+      {% if monthly_summary %}
+        <div class="summary-grid">
+          {% for month in monthly_summary %}
+            <article class="summary-card">
+              <h3>{{ month.month_label }}</h3>
+              {% for item in month.totals %}
+                <div class="summary-row">
+                  <span>{{ item.category }}</span>
+                  <span>${{ '%.2f'|format(item.amount) }}</span>
+                </div>
+              {% endfor %}
+              <p class="summary-total">Monthly Total: ${{ '%.2f'|format(month.month_total) }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-note">No monthly data available yet. Add your first expense to begin tracking.</p>
+      {% endif %}
+    </section>
+  </main>
+
+  <dialog id="editDialog" class="edit-dialog">
+    <form id="editForm" method="post" class="edit-form">
+      <h3>Edit Expense</h3>
+      <input type="hidden" name="month" value="{{ month_filter }}">
+
+      <label>
+        Expense Name
+        <input id="editName" type="text" name="name" required>
+      </label>
+
+      <label>
+        Category
+        <select id="editCategory" name="category" required>
+          {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Amount (USD)
+        <input id="editAmount" type="number" step="0.01" min="0" name="amount" required>
+      </label>
+
+      <label>
+        Date
+        <input id="editDate" type="date" name="date" required>
+      </label>
+
+      <div class="dialog-actions">
+        <button type="submit">Save Changes</button>
+        <button type="button" class="btn-secondary" id="cancelEdit">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script id="chartPayload" type="application/json">
+    {{ {
+      'categoryLabels': category_chart_labels,
+      'categoryValues': category_chart_values,
+      'monthlyLabels': monthly_chart_labels,
+      'monthlyValues': monthly_chart_values
+    } | tojson }}
+  </script>
+
+  <script>
+    const chartPayload = JSON.parse(document.getElementById("chartPayload").textContent);
+    const categoryLabels = chartPayload.categoryLabels;
+    const categoryValues = chartPayload.categoryValues;
+    const monthlyLabels = chartPayload.monthlyLabels;
+    const monthlyValues = chartPayload.monthlyValues;
+
+    new Chart(document.getElementById("categoryChart"), {
+      type: "doughnut",
+      data: {
+        labels: categoryLabels,
+        datasets: [{
+          data: categoryValues,
+          backgroundColor: ["#0f9d8a", "#ff9f1c", "#457b9d", "#e76f51", "#8ab17d", "#6d6875"],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: "bottom" }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("monthlyChart"), {
+      type: "line",
+      data: {
+        labels: monthlyLabels,
+        datasets: [{
+          label: "Monthly Total",
+          data: monthlyValues,
+          borderColor: "#0f9d8a",
+          backgroundColor: "rgba(15, 157, 138, 0.18)",
+          fill: true,
+          tension: 0.25
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    const editDialog = document.getElementById("editDialog");
+    const editForm = document.getElementById("editForm");
+    const editName = document.getElementById("editName");
+    const editCategory = document.getElementById("editCategory");
+    const editAmount = document.getElementById("editAmount");
+    const editDate = document.getElementById("editDate");
+
+    document.querySelectorAll("[data-edit-id]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.getAttribute("data-edit-id");
+        editForm.action = `/expenses/${id}/edit`;
+        editName.value = button.getAttribute("data-edit-name") || "";
+        editCategory.value = button.getAttribute("data-edit-category") || "";
+        editAmount.value = button.getAttribute("data-edit-amount") || "0.00";
+        editDate.value = button.getAttribute("data-edit-date") || "";
+        editDialog.showModal();
+      });
+    });
+
+    document.getElementById("cancelEdit").addEventListener("click", () => {
+      editDialog.close();
+    });
+  </script>
+</body>
+</html>

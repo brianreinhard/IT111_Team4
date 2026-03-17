@@ -1,72 +1,64 @@
-# Spending Tracker Web Application (Product)
+# Team 4 Spending Tracker (Flask)
 
-Purpose: 
+A local web-based spending tracker that lets users:
 
-To help users monitor, categorize, and analyze their expenses so they can better understand their financial habits, control spending, and make informed budgeting and saving decisions.
+- Add expenses with name, category, amount, and date
+- View saved expenses sorted by date
+- Filter expenses by month
+- See category totals and a total spending value
+- View monthly summary cards
+- Persist data to a local `expenses.json` file
 
- # Application Scope
+## Tech Stack
 
-Basic features:
+- Python 3.x
+- Flask
+- HTML + CSS (responsive UI)
 
-Add an expense (amount, category, description, date)  
-View all expenses  
-View total spending  
-View spending by category  
-Save/load data from a file (CSV or text)  
-Simple input validation  
+## Project Layout
 
+- `app.py` Flask application
+- `templates/index.html` main web page template
+- `static/styles.css` application styling
+- `requirements.txt` Python dependencies
+- `expenses.json` generated automatically after first saved expense
 
+## Run Locally
 
+From the project root directory (`IT111_Team4`):
 
-# Development Section
+1. Create a virtual environment
 
-# Spending Tracker Web App (Flask)
+```bash
+python -m venv venv
+```
 
-# 
+2. Activate the virtual environment
 
-# Goal
+macOS/Linux:
 
-A simple Flask-based productivity app that will grow week by week (task tracker / study planner / reading log style).  
+```bash
+source venv/bin/activate
+```
 
-Sprint 1 focuses on project setup, clean structure, Git workflow, and a working Flask route.
+Windows PowerShell:
 
-# 
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
-# Scope (Sprint 1)
+3. Install dependencies
 
- \- Flask app runs locally
- \- `/` route confirms the app is running
- \- App metadata (name, version, description) defined as variables and displayed
+```bash
+pip install -r requirements.txt
+```
 
- 
+4. Start the web app
 
- # Tech
+```bash
+python app.py
+```
 
-\- Python 3.x
- \- Flask
+5. Open in browser
 
- 
-
-\# Setup
-
-1\. Clone the repo  
-2\. Create and activate a virtual environment  
-3\. Install dependencies:  
-
-&nbsp;  ```bash
-
-&nbsp;  pip install -r requirements.txt ```
-
-# How to Run Locally (Windows)
-
-1. Clone the repo
-2. Create and activate a virtual environment:
-   - `python -m venv venv`
-   - `.\venv\Scripts\Activate.ps1`
-3. Install dependencies:
-   - `pip install -r requirements.txt`
-   (or `pip install flask` if requirements.txt is not used)
-4. Run the app:
-   - `python app.py`
-5. Open in browser:
-   - http://127.0.0.1:5000/
+`http://127.0.0.1:5000/`
