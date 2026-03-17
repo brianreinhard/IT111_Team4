@@ -7,10 +7,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+    <span class="theme-toggle-track" aria-hidden="true">
+      <span class="theme-toggle-thumb"></span>
+    </span>
+    <span id="themeToggleLabel">Dark mode</span>
+  </button>
+
   <div class="bg-orb orb-a"></div>
   <div class="bg-orb orb-b"></div>
 
@@ -238,44 +253,119 @@
     const monthlyLabels = chartPayload.monthlyLabels;
     const monthlyValues = chartPayload.monthlyValues;
 
-    new Chart(document.getElementById("categoryChart"), {
-      type: "doughnut",
-      data: {
-        labels: categoryLabels,
-        datasets: [{
-          data: categoryValues,
-          backgroundColor: ["#0f9d8a", "#ff9f1c", "#457b9d", "#e76f51", "#8ab17d", "#6d6875"],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { position: "bottom" }
-        }
-      }
-    });
+    const htmlRoot = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeToggleLabel = document.getElementById("themeToggleLabel");
 
-    new Chart(document.getElementById("monthlyChart"), {
-      type: "line",
-      data: {
-        labels: monthlyLabels,
-        datasets: [{
-          label: "Monthly Total",
-          data: monthlyValues,
-          borderColor: "#0f9d8a",
-          backgroundColor: "rgba(15, 157, 138, 0.18)",
-          fill: true,
-          tension: 0.25
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
+    let categoryChart;
+    let monthlyChart;
+
+    function currentTheme() {
+      return htmlRoot.getAttribute("data-theme") || "light";
+    }
+
+    function chartPalette(theme) {
+      if (theme === "dark") {
+        return {
+          text: "#d7dde5",
+          grid: "rgba(167, 180, 196, 0.24)",
+          area: "rgba(78, 186, 170, 0.2)",
+          line: "#4ebab0",
+          donut: ["#4ebab0", "#ffc46b", "#79a7df", "#ff8d7a", "#9bcf91", "#b39ddb"],
+        };
       }
+
+      return {
+        text: "#334a5f",
+        grid: "rgba(35, 56, 79, 0.14)",
+        area: "rgba(15, 157, 138, 0.18)",
+        line: "#0f9d8a",
+        donut: ["#0f9d8a", "#ff9f1c", "#457b9d", "#e76f51", "#8ab17d", "#6d6875"],
+      };
+    }
+
+    function renderCharts() {
+      const palette = chartPalette(currentTheme());
+
+      if (categoryChart) {
+        categoryChart.destroy();
+      }
+      if (monthlyChart) {
+        monthlyChart.destroy();
+      }
+
+      categoryChart = new Chart(document.getElementById("categoryChart"), {
+        type: "doughnut",
+        data: {
+          labels: categoryLabels,
+          datasets: [{
+            data: categoryValues,
+            backgroundColor: palette.donut,
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: palette.text },
+            },
+          },
+        },
+      });
+
+      monthlyChart = new Chart(document.getElementById("monthlyChart"), {
+        type: "line",
+        data: {
+          labels: monthlyLabels,
+          datasets: [{
+            label: "Monthly Total",
+            data: monthlyValues,
+            borderColor: palette.line,
+            backgroundColor: palette.area,
+            fill: true,
+            tension: 0.25,
+          }],
+        },
+        options: {
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              ticks: { color: palette.text },
+              grid: { color: palette.grid },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: palette.text },
+              grid: { color: palette.grid },
+            },
+          },
+        },
+      });
+    }
+
+    function syncThemeToggleText() {
+      const theme = currentTheme();
+      const nextMode = theme === "dark" ? "Light mode" : "Dark mode";
+      themeToggleLabel.textContent = nextMode;
+      themeToggle.setAttribute("aria-label", `Switch to ${nextMode.toLowerCase()}`);
+    }
+
+    function setTheme(theme) {
+      htmlRoot.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+      syncThemeToggleText();
+      renderCharts();
+    }
+
+    syncThemeToggleText();
+    renderCharts();
+
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = currentTheme() === "dark" ? "light" : "dark";
+      setTheme(nextTheme);
     });
 
     const editDialog = document.getElementById("editDialog");
