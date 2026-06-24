@@ -1,4 +1,4 @@
-# Team 4 Spending Tracker (Flask)
+# Spending Tracker App(Flask)
 
 A local web-based spending tracker that lets users:
 
